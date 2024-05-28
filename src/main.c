@@ -1,4 +1,6 @@
+#include "player.h"
 #include "raylib.h"
+#include <math.h>
 
 void Draw2DMap (void);
 void DrawPlayer (void);
@@ -19,7 +21,7 @@ char map[8][8] = {
 const int WINDOW_WIDTH = 1280 * 2;
 const int WINDOW_HEIGHT = 1280;
 
-Vector2 PlayerPos = { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0};
+Player player = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0}, 0};
 
 int
 main (void)
@@ -60,5 +62,8 @@ Draw2DMap(void)
 void 
 DrawPlayer(void)
 {
-  DrawCircle(PlayerPos.x, PlayerPos.y, 25, RED);
+  DrawCircle(player.pos.x, player.pos.y, 25, RED);
+  float playerDx = cos(player.angle) * 10;
+  float playerDy = sin(player.angle) * 10;
+  DrawLine(player.pos.x, player.pos.y, player.pos.x + playerDx * 5, player.pos.y + playerDy * 5, ORANGE);
 }

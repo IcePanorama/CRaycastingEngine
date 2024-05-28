@@ -1,8 +1,8 @@
 SRC_DIR=src
 SRC_FILES=$(SRC_DIR)/*.c
-#INCL_DIR=include
-#INCL_FILES=$(INCL_DIR)/*.h
-LIBS=raylib
+INCL_DIR=include
+INCL_FILES=$(INCL_DIR)/*.h
+LIBS=-lraylib -lm
 TARGET=main
 CFLAGS=-std=c99 -Wpedantic -Wextra -Werror -Wall -Wstrict-aliasing=3 -Wwrite-strings -Wvla -Wcast-align=strict -Wstrict-prototypes -Wstringop-overflow=4 -Wno-logical-op-parentheses -Wshadow -fanalyzer
 STYLE=GNU
@@ -10,7 +10,7 @@ STYLE=GNU
 all: clean format $(TARGET) test
 
 $(TARGET): 
-	gcc $(SRC_FILES) -I./$(INCL_DIR) -o $(TARGET) -l$(LIBS) $(CFLAGS)
+	gcc $(SRC_FILES) -I./$(INCL_DIR) -o $(TARGET) $(LIBS) $(CFLAGS)
 
 test: $(TARGET)
 	valgrind --leak-check=yes ./$(TARGET)
