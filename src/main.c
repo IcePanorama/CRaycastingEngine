@@ -1,6 +1,10 @@
+// clang-format off
+#include <math.h>
+
 #include "player.h"
 #include "raylib.h"
-#include <math.h>
+#include "utils.h"
+// clang-format on 
 
 #define MAP_WIDTH 9
 #define MAP_HEIGHT 9
@@ -66,18 +70,24 @@ Draw2DMap(void)
 void 
 DrawPlayer(void)
 {
-  const int RAY_LEN = 100;
   DrawCircle(player.pos.x, player.pos.y, 25, RED);
 
-  float playerDx = cos(player.angle) * RAY_LEN;
-  float playerDy = sin(player.angle) * RAY_LEN;
-  DrawLine(player.pos.x, player.pos.y, player.pos.x + playerDx, player.pos.y + playerDy, ORANGE);
+  const int RAY_LEN = 100;
+  float player_dx = cos(player.angle) * RAY_LEN;
+  float player_dy = sin(player.angle) * RAY_LEN;
+  DrawLine(player.pos.x, player.pos.y, player.pos.x + player_dx, player.pos.y + player_dy, ORANGE);
 
-  playerDx = cos(player.angle - DEG2RAD * 30) * RAY_LEN;
-  playerDy = sin(player.angle - DEG2RAD * 30) * RAY_LEN;
-  DrawLine(player.pos.x, player.pos.y, player.pos.x + playerDx, player.pos.y + playerDy, WHITE);
+  // Left FOV Line
+  player_dx = cos(player.angle - DEG2RAD * 30) * RAY_LEN * RAY_LEN;
+  player_dy = sin(player.angle - DEG2RAD * 30) * RAY_LEN * RAY_LEN;
+  float line_end_x = float_clamp(player.pos.x + player_dx, 0, WINDOW_WIDTH / 2.0);
+  float line_end_y = float_clamp(player.pos.y + player_dy, 0, WINDOW_WIDTH / 2.0);
+  DrawLine(player.pos.x, player.pos.y, line_end_x, line_end_y, WHITE);
 
-  playerDx = cos(player.angle + DEG2RAD * 30) * RAY_LEN;
-  playerDy = sin(player.angle + DEG2RAD * 30) * RAY_LEN;
-  DrawLine(player.pos.x, player.pos.y, player.pos.x + playerDx, player.pos.y + playerDy, WHITE);
+  // Right FOV Line
+  player_dx = cos(player.angle + DEG2RAD * 30) * RAY_LEN * RAY_LEN;
+  player_dy = sin(player.angle + DEG2RAD * 30) * RAY_LEN * RAY_LEN;
+  line_end_x = float_clamp(player.pos.x + player_dx, 0, WINDOW_WIDTH / 2.0);
+  line_end_y = float_clamp(player.pos.y + player_dy, 0, WINDOW_WIDTH / 2.0);
+  DrawLine(player.pos.x, player.pos.y, line_end_x, line_end_y, WHITE);
 }
