@@ -4,7 +4,7 @@ SRC_FILES=$(SRC_DIR)/*.c
 #INCL_FILES=$(INCL_DIR)/*.h
 LIBS=raylib
 TARGET=main
-CFLAGS=-std=c99 -Wpedantic -Wextra -Werror -Wall 
+CFLAGS=-std=c99 -Wpedantic -Wextra -Werror -Wall -Wstrict-aliasing=3 -Wwrite-strings -Wvla -Wcast-align=strict -Wstrict-prototypes -Wstringop-overflow=4 -Wno-logical-op-parentheses -Wshadow -fanalyzer
 STYLE=GNU
 
 all: clean format $(TARGET) test
