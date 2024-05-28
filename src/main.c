@@ -1,7 +1,7 @@
 #include "raylib.h"
-#include <stdio.h>
 
 void Draw2DMap (void);
+void DrawPlayer (void);
 
 // clang-format off
 char map[8][8] = {
@@ -16,15 +16,14 @@ char map[8][8] = {
 };
 // clang-format on 
 
+const int WINDOW_WIDTH = 1280 * 2;
+const int WINDOW_HEIGHT = 1280;
+
+Vector2 PlayerPos = { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0};
+
 int
 main (void)
 {
-  const int WINDOW_WIDTH = 1280;
-  const int WINDOW_HEIGHT = 960;
-
-
-  printf("%c\n", map[0][0]);
-
   InitWindow (WINDOW_WIDTH, WINDOW_HEIGHT, "This is a test.");
 
   SetTargetFPS (60);
@@ -34,6 +33,7 @@ main (void)
       BeginDrawing ();
 
       Draw2DMap();
+      DrawPlayer();
 
       EndDrawing ();
     }
@@ -46,7 +46,7 @@ main (void)
 void 
 Draw2DMap(void)
 {
-  const int SIZE = 100;
+  const int SIZE = (WINDOW_WIDTH / 2) / 8;
   for (int i = 0; i < 8; i++)
   {
     for (int j = 0; j < 8; j++)
@@ -55,4 +55,10 @@ Draw2DMap(void)
       DrawRectangle(i*SIZE, j*SIZE, SIZE, SIZE, color);
     }
   }
+}
+
+void 
+DrawPlayer(void)
+{
+  DrawCircle(PlayerPos.x, PlayerPos.y, 25, RED);
 }
