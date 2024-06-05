@@ -23,6 +23,8 @@ main (void)
 
   SetTargetFPS (60);
 
+  printf("%f\n", WINDOW_WIDTH / 2.0);
+
   while (!WindowShouldClose ())
     {
       handle_player_input ();
@@ -43,9 +45,9 @@ draw_player(void)
 {
   DrawCircle(player.pos.x, player.pos.y, 25, RED);
 
-  const int RAY_LEN = 200;
-  float player_dx = cos(player.angle) * (RAY_LEN / 2);
-  float player_dy = sin(player.angle) * (RAY_LEN / 2);
+  const int RAY_LEN = 100;//100;
+  float player_dx = cos(player.angle) * RAY_LEN;
+  float player_dy = sin(player.angle) * RAY_LEN;
   DrawLine(player.pos.x, player.pos.y, player.pos.x + player_dx, player.pos.y + player_dy, ORANGE);
 
   // Left FOV Line
@@ -54,14 +56,18 @@ draw_player(void)
   float line_end_x = player.pos.x + player_dx;
   float line_end_y = player.pos.y + player_dy;
 
+  line_end_x = float_clamp(line_end_x, -8000, 8000);
+
+  printf("x: %f, y: %f\n", line_end_x, line_end_y);
   DrawLine(player.pos.x, player.pos.y, line_end_x, line_end_y, WHITE);
 
   // Right FOV Line
-  player_dx = cos(player.angle + DEG2RAD * 30) * RAY_LEN;
-  player_dy = sin(player.angle + DEG2RAD * 30) * RAY_LEN;
+  player_dx = cos(player.angle + DEG2RAD * 30) * RAY_LEN * RAY_LEN;
+  player_dy = sin(player.angle + DEG2RAD * 30) * RAY_LEN * RAY_LEN;
   line_end_x = player.pos.x + player_dx;
   line_end_y = player.pos.y + player_dy;
 
+  //printf("x: %f, y: %f\n", line_end_x, line_end_y);
   DrawLine(player.pos.x, player.pos.y, line_end_x, line_end_y, WHITE);
 }
 

@@ -18,6 +18,8 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 };
 // clang-format on 
 
+//FIXME: there's like a pixel of space on the bottom that's visible on the
+// bottom
 void 
 draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 {

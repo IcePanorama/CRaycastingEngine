@@ -3,6 +3,6 @@
 float
 float_clamp (float value, const float MIN, const float MAX)
 {
-  value = value < MIN ? MIN : value;
-  return value > MAX ? MAX : value;
+  float clamped_val = value < MIN ? MIN : value;
+  return clamped_val > MAX ? MAX : clamped_val;
 }
