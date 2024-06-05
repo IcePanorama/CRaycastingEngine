@@ -18,18 +18,17 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 };
 // clang-format on 
 
-//FIXME: there's like a pixel of space on the bottom that's visible on the
-// bottom
 void 
 draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 {
-  const int SIZE = (WINDOW_WIDTH / 2) / MAP_WIDTH;
+  const int SIZE = (WINDOW_WIDTH / 2) / MAP_WIDTH + 1;
   for (int i = 0; i < MAP_WIDTH; i++)
   {
     for (int j = 0; j < MAP_HEIGHT; j++)
     {
       Color color = map[i][j] == 1 ? YELLOW : GRAY;
-      DrawRectangle(i*SIZE, j*SIZE, SIZE, SIZE, color);
+      // +1, -2 for showing grid lines
+      DrawRectangle(i*SIZE + 1, j*SIZE + 1, SIZE - 2, SIZE - 2, color);
     }
   }
 }

@@ -25,6 +25,7 @@ main (void)
 
   while (!WindowShouldClose ())
     {
+      ClearBackground(BLACK);
       handle_player_input ();
       BeginDrawing ();
       draw_2d_map (WINDOW_WIDTH);//, WINDOW_HEIGHT);
