@@ -21,7 +21,7 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 void 
 draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 {
-  const int SIZE = (WINDOW_WIDTH / 2) / MAP_WIDTH + 1;
+  const int SIZE = get_cell_size(WINDOW_WIDTH);
   for (int i = 0; i < MAP_WIDTH; i++)
   {
     for (int j = 0; j < MAP_HEIGHT; j++)
@@ -33,3 +33,8 @@ draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
   }
 }
 
+int 
+get_cell_size (const int WINDOW_WIDTH)
+{
+  return (WINDOW_WIDTH / 2) / MAP_WIDTH + 1;
+}
