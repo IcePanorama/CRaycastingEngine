@@ -7,6 +7,7 @@ typedef struct Player
 {
   Vector2 pos;
   double angle;
+  double speed;
 } Player;
 
 #endif

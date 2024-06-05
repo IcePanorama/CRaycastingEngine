@@ -11,11 +11,12 @@
 const int WINDOW_WIDTH = 1280 * 2;
 const int WINDOW_HEIGHT = 1280;
 
-Player player = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0}, 0};
+Player player = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0}, 0, 100.0};
 
 void draw_player (void);
 void handle_player_input (void);
 
+//TODO: restructure projects so headers and .c files are in the same folder
 int
 main (void)
 {
@@ -38,7 +39,6 @@ main (void)
   return 0;
 }
 
-//FIXME:limit this to the left half of the window
 void 
 draw_player(void)
 {
@@ -71,10 +71,10 @@ handle_player_input (void)
 {
   if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
   {
-    player.angle -= DEG2RAD;
+    player.angle -= DEG2RAD * GetFrameTime() * player.speed;
   }
   if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
   {
-    player.angle += DEG2RAD;
+    player.angle += DEG2RAD * GetFrameTime() * player.speed;
   }
 }
