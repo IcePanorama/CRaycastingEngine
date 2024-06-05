@@ -13,7 +13,7 @@ const int WINDOW_HEIGHT = 1280;
 Player player = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0}, 0};
 
 void draw_player (void);
-//void handle_player_input (void);
+void handle_player_input (void);
 
 int
 main (void)
@@ -24,7 +24,7 @@ main (void)
 
   while (!WindowShouldClose ())
     {
-      //HandleUserInput ();
+      handle_player_input ();
       BeginDrawing ();
       draw_2d_map (WINDOW_WIDTH);//, WINDOW_HEIGHT);
       draw_player ();
@@ -59,4 +59,17 @@ draw_player(void)
   line_end_x = float_clamp(player.pos.x + player_dx, 0, WINDOW_WIDTH / 2.0);
   line_end_y = float_clamp(player.pos.y + player_dy, 0, WINDOW_WIDTH / 2.0);
   DrawLine(player.pos.x, player.pos.y, line_end_x, line_end_y, WHITE);
+}
+
+void
+handle_player_input (void)
+{
+  if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+  {
+    player.angle -= DEG2RAD;
+  }
+  if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+  {
+    player.angle += DEG2RAD;
+  }
 }
