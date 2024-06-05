@@ -19,7 +19,7 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 // clang-format on 
 
 void 
-Draw2DMap(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
+draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 {
   const int SIZE = (WINDOW_WIDTH / 2) / MAP_WIDTH;
   for (int i = 0; i < MAP_WIDTH; i++)

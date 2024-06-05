@@ -12,7 +12,8 @@ const int WINDOW_HEIGHT = 1280;
 
 Player player = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0}, 0};
 
-void DrawPlayer (void);
+void draw_player (void);
+//void handle_player_input (void);
 
 int
 main (void)
@@ -23,9 +24,10 @@ main (void)
 
   while (!WindowShouldClose ())
     {
+      //HandleUserInput ();
       BeginDrawing ();
-      Draw2DMap(WINDOW_WIDTH);//, WINDOW_HEIGHT);
-      DrawPlayer();
+      draw_2d_map (WINDOW_WIDTH);//, WINDOW_HEIGHT);
+      draw_player ();
       EndDrawing ();
     }
 
@@ -35,7 +37,7 @@ main (void)
 }
 
 void 
-DrawPlayer(void)
+draw_player(void)
 {
   DrawCircle(player.pos.x, player.pos.y, 25, RED);
 
