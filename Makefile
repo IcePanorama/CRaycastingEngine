@@ -1,7 +1,6 @@
 SRC_DIR=src
 SRC_FILES=$(SRC_DIR)/*.c
-INCL_DIR=include
-INCL_FILES=$(INCL_DIR)/*.h
+INCL_FILES=$(SRC_DIR)/*.h
 LIBS=-lraylib -lm
 TARGET=main
 CFLAGS=-std=c99 -Wpedantic -Wextra -Werror -Wall -Wstrict-aliasing=3 -Wwrite-strings -Wvla -Wcast-align=strict -Wstrict-prototypes -Wstringop-overflow=4 -Wno-logical-op-parentheses -Wshadow -fanalyzer
