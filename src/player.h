@@ -10,4 +10,6 @@ typedef struct Player
   double speed;
 } Player;
 
+void clamp_player_angle (Player *p);
+
 #endif

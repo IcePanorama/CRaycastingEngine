@@ -13,7 +13,6 @@ Player player
 
 void draw_player (void);
 void handle_player_input (void);
-void clamp_player_angle (void);
 
 int
 main (void)
@@ -74,12 +73,12 @@ handle_player_input (void)
   if (IsKeyDown (KEY_A) || IsKeyDown (KEY_LEFT))
     {
       player.angle -= DEG2RAD * GetFrameTime () * player.speed;
-      clamp_player_angle ();
+      clamp_player_angle (&player);
     }
   if (IsKeyDown (KEY_D) || IsKeyDown (KEY_RIGHT))
     {
       player.angle += DEG2RAD * GetFrameTime () * player.speed;
-      clamp_player_angle ();
+      clamp_player_angle (&player);
     }
   if (IsKeyDown (KEY_W) || IsKeyDown (KEY_UP))
     {
@@ -90,18 +89,5 @@ handle_player_input (void)
     {
       player.pos.x -= cos (player.angle) * player.speed * GetFrameTime ();
       player.pos.y -= sin (player.angle) * player.speed * GetFrameTime ();
-    }
-}
-
-void
-clamp_player_angle (void)
-{
-  if (player.angle < 0)
-    {
-      player.angle += 2 * PI;
-    }
-  else if (player.angle > 2 * PI)
-    {
-      player.angle -= 2 * PI;
     }
 }
