@@ -9,10 +9,11 @@ const int WINDOW_WIDTH = 1280 * 2;
 const int WINDOW_HEIGHT = 1280;
 
 Player player
-    = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0 }, -90 * DEG2RAD, 100.0 };
+    = { { WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0 }, 270 * DEG2RAD, 100.0 };
 
 void draw_player (void);
 void handle_player_input (void);
+void clamp_player_angle (void);
 
 int
 main (void)
@@ -40,8 +41,8 @@ main (void)
 void
 draw_player (void)
 {
-  draw_cell (global_x_to_map_row(player.pos.x),
-             global_y_to_map_col(player.pos.y), GREEN);
+  draw_cell (global_x_to_map_row (player.pos.x),
+             global_y_to_map_col (player.pos.y), GREEN);
   DrawCircle (player.pos.x, player.pos.y, 25, RED);
 
   const int RAY_LEN = 200;
@@ -73,17 +74,34 @@ handle_player_input (void)
   if (IsKeyDown (KEY_A) || IsKeyDown (KEY_LEFT))
     {
       player.angle -= DEG2RAD * GetFrameTime () * player.speed;
+      clamp_player_angle ();
     }
   if (IsKeyDown (KEY_D) || IsKeyDown (KEY_RIGHT))
     {
       player.angle += DEG2RAD * GetFrameTime () * player.speed;
+      clamp_player_angle ();
     }
-  if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+  if (IsKeyDown (KEY_W) || IsKeyDown (KEY_UP))
     {
-      player.pos.y -= 1 * GetFrameTime() * player.speed;
+      player.pos.x += cos (player.angle) * player.speed * GetFrameTime ();
+      player.pos.y += sin (player.angle) * player.speed * GetFrameTime ();
     }
-  if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
-  {
-    player.pos.y += 1 * GetFrameTime() * player.speed;
-  }
+  if (IsKeyDown (KEY_S) || IsKeyDown (KEY_DOWN))
+    {
+      player.pos.x -= cos (player.angle) * player.speed * GetFrameTime ();
+      player.pos.y -= sin (player.angle) * player.speed * GetFrameTime ();
+    }
+}
+
+void
+clamp_player_angle (void)
+{
+  if (player.angle < 0)
+    {
+      player.angle += 2 * PI;
+    }
+  else if (player.angle > 2 * PI)
+    {
+      player.angle -= 2 * PI;
+    }
 }
