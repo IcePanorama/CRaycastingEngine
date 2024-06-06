@@ -1,6 +1,8 @@
 #include "player.h"
 #include "map.h"
+#include "utils.h"
 #include <math.h>
+#include <raylib.h>
 
 const int PLAYER_FOV = 90;
 
@@ -61,6 +63,20 @@ draw_player (Player *p)
   float line_end_x = p->pos.x + player_dx;
   float line_end_y = p->pos.y + player_dy;
 
+  // FIXME: the math ain't math-ing here
+  //  take another look when I'm not super tired.
+  /*
+  Vector2 tmp;
+  get_cell_center (&tmp, global_x_to_map_row (line_end_x),
+                   global_y_to_map_col (line_end_y));
+  float cell_width = get_cell_size ();
+  float y_offset = (tmp.y + cell_width / 2.0) - line_end_y;
+  //line_end_y += y_offset;
+  line_end_x += y_offset * (1.0 / tan (p->angle - (PLAYER_FOV / 2.0)));
+  DrawCircle(line_end_x, line_end_y, 10, ORANGE);
+  */
+  draw_cell (global_x_to_map_row (line_end_x),
+             global_y_to_map_col (line_end_y), ORANGE);
   DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
 
   // Right FOV Line
@@ -69,5 +85,7 @@ draw_player (Player *p)
   line_end_x = p->pos.x + player_dx;
   line_end_y = p->pos.y + player_dy;
 
+  draw_cell (global_x_to_map_row (line_end_x),
+             global_y_to_map_col (line_end_y), ORANGE);
   DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
 }

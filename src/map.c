@@ -60,3 +60,21 @@ global_y_to_map_col (float y)
   return (int)(y / get_cell_size ());
 }
 
+float 
+map_row_to_global_x (int row)
+{
+  return row * get_cell_size();
+}
+
+float
+map_col_to_global_y (int col)
+{
+  return col * get_cell_size();
+}
+
+void
+get_cell_center (Vector2* center, int row, int col)
+{
+  center->x = map_row_to_global_x(row);
+  center->y = map_col_to_global_y(col);
+}
