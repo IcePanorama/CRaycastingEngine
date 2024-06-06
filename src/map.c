@@ -18,23 +18,45 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 };
 // clang-format on 
 
+int window_width;
+
 void 
 draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 {
-  const int SIZE = get_cell_size(WINDOW_WIDTH);
+  window_width = WINDOW_WIDTH;
   for (int i = 0; i < MAP_WIDTH; i++)
   {
     for (int j = 0; j < MAP_HEIGHT; j++)
     {
       Color color = map[i][j] == 1 ? YELLOW : GRAY;
-      // +1, -2 for showing grid lines
-      DrawRectangle(i*SIZE + 1, j*SIZE + 1, SIZE - 2, SIZE - 2, color);
+      draw_cell(i, j, color);
     }
   }
 }
 
 int 
-get_cell_size (const int WINDOW_WIDTH)
+get_cell_size (void)
 {
-  return (WINDOW_WIDTH / 2) / MAP_WIDTH + 1;
+  return (window_width / 2) / MAP_WIDTH + 1;
 }
+
+void 
+draw_cell (float i, float j, Color color)
+{
+  const int SIZE = get_cell_size();
+  DrawRectangle(i * SIZE + 1,j * SIZE + 1, SIZE - 2, SIZE - 2, color);
+}
+
+// why am I using floats everywhere? should switch to double lol
+int 
+global_x_to_map_row (float x)
+{
+  return (int)(x / get_cell_size ());
+}
+
+int 
+global_y_to_map_col (float y)
+{
+  return (int)(y / get_cell_size ());
+}
+

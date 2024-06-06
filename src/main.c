@@ -1,9 +1,9 @@
 #include <math.h>
+#include <stdio.h>
 
 #include "map.h"
 #include "player.h"
 #include "raylib.h"
-#include "utils.h"
 
 const int WINDOW_WIDTH = 1280 * 2;
 const int WINDOW_HEIGHT = 1280;
@@ -14,7 +14,6 @@ Player player
 void draw_player (void);
 void handle_player_input (void);
 
-// TODO: restructure projects so headers and .c files are in the same folder
 int
 main (void)
 {
@@ -24,9 +23,10 @@ main (void)
 
   while (!WindowShouldClose ())
     {
-      ClearBackground (BLACK);
       handle_player_input ();
+
       BeginDrawing ();
+      ClearBackground (BLACK);
       draw_2d_map (WINDOW_WIDTH); //, WINDOW_HEIGHT);
       draw_player ();
       EndDrawing ();
@@ -40,11 +40,13 @@ main (void)
 void
 draw_player (void)
 {
+  draw_cell (global_x_to_map_row(player.pos.x),
+             global_y_to_map_col(player.pos.y), GREEN);
   DrawCircle (player.pos.x, player.pos.y, 25, RED);
 
   const int RAY_LEN = 200;
-  float player_dx = cos (player.angle) * (RAY_LEN / 2);
-  float player_dy = sin (player.angle) * (RAY_LEN / 2);
+  float player_dx = cos (player.angle) * (RAY_LEN / 2.0);
+  float player_dy = sin (player.angle) * (RAY_LEN / 2.0);
   DrawLine (player.pos.x, player.pos.y, player.pos.x + player_dx,
             player.pos.y + player_dy, ORANGE);
 
@@ -76,4 +78,12 @@ handle_player_input (void)
     {
       player.angle += DEG2RAD * GetFrameTime () * player.speed;
     }
+  if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+    {
+      player.pos.y -= 1 * GetFrameTime() * player.speed;
+    }
+  if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+  {
+    player.pos.y += 1 * GetFrameTime() * player.speed;
+  }
 }
