@@ -1,6 +1,3 @@
-#include <math.h>
-#include <stdio.h>
-
 #include "map.h"
 #include "player.h"
 #include "raylib.h"

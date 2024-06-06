@@ -2,6 +2,8 @@
 #include "map.h"
 #include <math.h>
 
+const int PLAYER_FOV = 90;
+
 void
 clamp_player_angle (Player *p)
 {
@@ -54,16 +56,16 @@ draw_player (Player *p)
             ORANGE);
 
   // Left FOV Line
-  player_dx = cos (p->angle - DEG2RAD * 30) * RAY_LEN;
-  player_dy = sin (p->angle - DEG2RAD * 30) * RAY_LEN;
+  player_dx = cos (p->angle - DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
+  player_dy = sin (p->angle - DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
   float line_end_x = p->pos.x + player_dx;
   float line_end_y = p->pos.y + player_dy;
 
   DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
 
   // Right FOV Line
-  player_dx = cos (p->angle + DEG2RAD * 30) * RAY_LEN;
-  player_dy = sin (p->angle + DEG2RAD * 30) * RAY_LEN;
+  player_dx = cos (p->angle + DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
+  player_dy = sin (p->angle + DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
   line_end_x = p->pos.x + player_dx;
   line_end_y = p->pos.y + player_dy;
 
