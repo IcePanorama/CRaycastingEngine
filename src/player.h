@@ -11,5 +11,7 @@ typedef struct Player
 } Player;
 
 void clamp_player_angle (Player *p);
+void handle_player_input (Player *p);
+void draw_player (Player *p);
 
 #endif
