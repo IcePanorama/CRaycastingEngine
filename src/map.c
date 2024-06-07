@@ -8,8 +8,8 @@
 char map[MAP_WIDTH][MAP_HEIGHT] = {
   { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+  { 1, 0, 1, 1, 0, 0, 0, 0, 1 },
+  { 1, 0, 1, 1, 0, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -77,4 +77,14 @@ get_cell_center (Vector2* center, int row, int col)
 {
   center->x = map_row_to_global_x(row);
   center->y = map_col_to_global_y(col);
+}
+
+bool 
+is_cell_wall(int i, int j)
+{
+  if (i < 0 || i >= MAP_WIDTH || j < 0 || j >= MAP_HEIGHT)
+  {
+    return false;
+  }
+  return map[i][j] == 1;
 }

@@ -47,45 +47,46 @@ handle_player_input (Player *p)
 void
 draw_player (Player *p)
 {
+  // highlights the cell the player is in
   draw_cell (global_x_to_map_row (p->pos.x), global_y_to_map_col (p->pos.y),
              GREEN);
+
   DrawCircle (p->pos.x, p->pos.y, 25, RED);
 
   const int RAY_LEN = 200;
-  float player_dx = cos (p->angle) * (RAY_LEN / 2.0);
-  float player_dy = sin (p->angle) * (RAY_LEN / 2.0);
+  float player_dx = cos (p->angle) * 100;
+  float player_dy = sin (p->angle) * 100;
   DrawLine (p->pos.x, p->pos.y, p->pos.x + player_dx, p->pos.y + player_dy,
             ORANGE);
 
-  // Left FOV Line
-  player_dx = cos (p->angle - DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
-  player_dy = sin (p->angle - DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
-  float line_end_x = p->pos.x + player_dx;
-  float line_end_y = p->pos.y + player_dy;
+  float left_fov_angle = p->angle - DEG2RAD * (PLAYER_FOV / 2.0);
 
-  // FIXME: the math ain't math-ing here
-  //  take another look when I'm not super tired.
-  /*
-  Vector2 tmp;
-  get_cell_center (&tmp, global_x_to_map_row (line_end_x),
-                   global_y_to_map_col (line_end_y));
-  float cell_width = get_cell_size ();
-  float y_offset = (tmp.y + cell_width / 2.0) - line_end_y;
-  //line_end_y += y_offset;
-  line_end_x += y_offset * (1.0 / tan (p->angle - (PLAYER_FOV / 2.0)));
-  DrawCircle(line_end_x, line_end_y, 10, ORANGE);
-  */
-  draw_cell (global_x_to_map_row (line_end_x),
-             global_y_to_map_col (line_end_y), ORANGE);
+  float dx = cos (left_fov_angle) * (RAY_LEN / 100.0);
+  float dy = sin (left_fov_angle) * (RAY_LEN / 100.0);
+  float line_end_x = p->pos.x + dx;
+  float line_end_y = p->pos.y + dy;
+
+  while (!is_cell_wall (global_x_to_map_row (line_end_x),
+                        global_y_to_map_col (line_end_y)))
+    {
+      line_end_x += dx;
+      line_end_y += dy;
+    }
+
   DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
 
-  // Right FOV Line
-  player_dx = cos (p->angle + DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
-  player_dy = sin (p->angle + DEG2RAD * (PLAYER_FOV / 2.0)) * RAY_LEN;
-  line_end_x = p->pos.x + player_dx;
-  line_end_y = p->pos.y + player_dy;
+  float right_fov_angle = p->angle + DEG2RAD * (PLAYER_FOV / 2.0);
+  dx = cos (right_fov_angle) * (RAY_LEN / 100.0);
+  dy = sin (right_fov_angle) * (RAY_LEN / 100.0);
+  line_end_x = p->pos.x + dx;
+  line_end_y = p->pos.y + dy;
 
-  draw_cell (global_x_to_map_row (line_end_x),
-             global_y_to_map_col (line_end_y), ORANGE);
+  while (!is_cell_wall (global_x_to_map_row (line_end_x),
+                        global_y_to_map_col (line_end_y)))
+    {
+      line_end_x += dx;
+      line_end_y += dy;
+    }
+
   DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
 }
