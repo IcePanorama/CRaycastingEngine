@@ -13,5 +13,6 @@ float map_row_to_global_x (int row);
 float map_col_to_global_y (int col);
 void get_cell_center (Vector2 *center, int row, int col);
 bool is_cell_wall (int i, int j);
+// void draw_3d_view (void);
 
 #endif

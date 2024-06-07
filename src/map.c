@@ -88,3 +88,8 @@ is_cell_wall(int i, int j)
   }
   return map[i][j] == 1;
 }
+
+/*void 
+draw_3d_view (void)
+{
+}*/

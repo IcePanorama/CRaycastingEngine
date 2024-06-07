@@ -3,6 +3,8 @@
 
 #include "raylib.h"
 
+extern const int PLAYER_FOV;
+
 typedef struct Player
 {
   Vector2 pos;
