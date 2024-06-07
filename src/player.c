@@ -63,36 +63,10 @@ draw_player (Player *p)
   Vector2 line_end;
   float left_fov_angle = p->angle - DEG2RAD * (PLAYER_FOV / 2.0);
   calculate_ray_length (&p->pos, &line_end, left_fov_angle);
-  /*
-  float dx = cos (left_fov_angle) * (RAY_LEN / 100.0);
-  float dy = sin (left_fov_angle) * (RAY_LEN / 100.0);
-  float x = p->pos.x + dx;
-  float y = p->pos.y + dy;
-
-  while (!is_cell_wall (global_x_to_map_row (x),
-                        global_y_to_map_col (line_end_y)))
-    {
-      line_end_x += dx;
-      line_end_y += dy;
-    }*/
-
   DrawLine (p->pos.x, p->pos.y, line_end.x, line_end.y, WHITE);
 
   /* Right FOV Line */
   float right_fov_angle = p->angle + DEG2RAD * (PLAYER_FOV / 2.0);
   calculate_ray_length (&p->pos, &line_end, right_fov_angle);
-  /*dx = cos (right_fov_angle) * (RAY_LEN / 100.0);
-  dy = sin (right_fov_angle) * (RAY_LEN / 100.0);
-  line_end_x = p->pos.x + dx;
-  line_end_y = p->pos.y + dy;
-
-  while (!is_cell_wall (global_x_to_map_row (line_end_x),
-                        global_y_to_map_col (line_end_y)))
-    {
-      line_end_x += dx;
-      line_end_y += dy;
-    }*/
-
-  // DrawLine (p->pos.x, p->pos.y, line_end_x, line_end_y, WHITE);
   DrawLine (p->pos.x, p->pos.y, line_end.x, line_end.y, WHITE);
 }

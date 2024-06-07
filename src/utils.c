@@ -16,18 +16,18 @@ distance (float ax, float ay, float bx, float by)
 }
 
 void
-calculate_ray_length (Vector2 *start, Vector2 *res, float angle)
+calculate_ray_length (Vector2 *start, Vector2 *end, float angle)
 {
   const int RAY_LEN = 2;
   float dx = cos (angle) * RAY_LEN;
   float dy = sin (angle) * RAY_LEN;
-  res->x = start->x + dx;
-  res->y = start->y + dy;
+  end->x = start->x + dx;
+  end->y = start->y + dy;
 
-  while (!is_cell_wall (global_x_to_map_row (res->x),
-                        global_y_to_map_col (res->y)))
+  while (!is_cell_wall (global_x_to_map_row (end->x),
+                        global_y_to_map_col (end->y)))
     {
-      res->x += dx;
-      res->y += dy;
+      end->x += dx;
+      end->y += dy;
     }
 }
