@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "map.h"
 #include <math.h>
+#include <raylib.h>
 
 float
 float_clamp (float value, const float MIN, const float MAX)
@@ -9,10 +10,16 @@ float_clamp (float value, const float MIN, const float MAX)
   return clamped_val > MAX ? MAX : clamped_val;
 }
 
-double
+/*double
 distance (float ax, float ay, float bx, float by)
 {
-  return sqrt (fabs ((ax * ax - bx * bx) + (ay * ay - by * by)));
+  return sqrt (fabs (ax * ax - bx * bx) + fabs (ay * ay - by * by)));
+}*/
+
+float
+v2_distance (Vector2 *a, Vector2 *b)
+{
+  return sqrt ((b->x - a->x) * (b->x - a->x) + (b->y - a->y) * (b->y - a->y));
 }
 
 void

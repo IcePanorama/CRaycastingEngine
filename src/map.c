@@ -37,14 +37,14 @@ draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
 int 
 get_cell_size (void)
 {
-  return (window_width / 2) / MAP_WIDTH + 1;
+  return (window_width / 2) / MAP_WIDTH;
 }
 
 void 
 draw_cell (float i, float j, Color color)
 {
   const int SIZE = get_cell_size();
-  DrawRectangle(i * SIZE + 1,j * SIZE + 1, SIZE - 2, SIZE - 2, color);
+  DrawRectangle(i * SIZE, j * SIZE, SIZE - 2, SIZE - 2, color);
 }
 
 // why am I using floats everywhere? should switch to double lol

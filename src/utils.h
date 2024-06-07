@@ -4,7 +4,8 @@
 #include <raylib.h>
 
 float float_clamp (float value, float MIN, float MAX);
-double distance (float ax, float ay, float bx, float by);
+// double distance (float ax, float ay, float bx, float by);
 void calculate_ray_length (Vector2 *start, Vector2 *end, float angle);
+float v2_distance (Vector2 *a, Vector2 *b);
 
 #endif

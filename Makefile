@@ -11,7 +11,7 @@ all: clean format $(TARGET) test
 no-test: clean $(TARGET)
 
 $(TARGET): 
-	gcc $(SRC_FILES) -I./$(INCL_DIR) -o $(TARGET) $(LIBS) $(CFLAGS)
+	gcc $(SRC_FILES) -I./$(SRC_DIR) -o $(TARGET) $(LIBS) $(CFLAGS)
 
 test: $(TARGET)
 	valgrind --leak-check=yes ./$(TARGET)

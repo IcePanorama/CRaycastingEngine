@@ -50,10 +50,9 @@ draw_player (Player *p)
   // highlights the cell the player is in
   draw_cell (global_x_to_map_row (p->pos.x), global_y_to_map_col (p->pos.y),
              GREEN);
-
   DrawCircle (p->pos.x, p->pos.y, 25, RED);
 
-  // const int RAY_LEN = 200;
+  /* Center FOV Line */
   float player_dx = cos (p->angle) * 100;
   float player_dy = sin (p->angle) * 100;
   DrawLine (p->pos.x, p->pos.y, p->pos.x + player_dx, p->pos.y + player_dy,
