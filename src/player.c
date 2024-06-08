@@ -4,7 +4,7 @@
 #include <math.h>
 #include <raylib.h>
 
-const int PLAYER_FOV = 90;
+const int PLAYER_FOV = 60;
 
 void
 clamp_player_angle (Player *p)
@@ -68,4 +68,6 @@ draw_player (Player *p)
   float right_fov_angle = p->angle + DEG2RAD * (PLAYER_FOV / 2.0);
   calculate_ray_length (&p->pos, &line_end, right_fov_angle);
   DrawLine (p->pos.x, p->pos.y, line_end.x, line_end.y, WHITE);
+
+  /* View Plane */
 }

@@ -10,10 +10,10 @@ float_clamp (float value, const float MIN, const float MAX)
   return clamped_val > MAX ? MAX : clamped_val;
 }
 
-/*double
+/*float
 distance (float ax, float ay, float bx, float by)
 {
-  return sqrt (fabs (ax * ax - bx * bx) + fabs (ay * ay - by * by)));
+  return sqrt (((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
 }*/
 
 float
@@ -26,15 +26,19 @@ void
 calculate_ray_length (Vector2 *start, Vector2 *end, float angle)
 {
   const int RAY_LEN = 2;
+  const int MAX_RANGE = 1000;
   float dx = cos (angle) * RAY_LEN;
   float dy = sin (angle) * RAY_LEN;
   end->x = start->x + dx;
   end->y = start->y + dy;
 
-  while (!is_cell_wall (global_x_to_map_row (end->x),
-                        global_y_to_map_col (end->y)))
+  int counter = 0;
+  while (counter < MAX_RANGE
+         && !is_cell_wall (global_x_to_map_row (end->x),
+                           global_y_to_map_col (end->y)))
     {
       end->x += dx;
       end->y += dy;
+      counter++;
     }
 }

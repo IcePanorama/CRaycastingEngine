@@ -2,8 +2,8 @@
 #include "player.h"
 #include "raylib.h"
 #include "utils.h"
-#include <linux/limits.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 const int WINDOW_WIDTH = 1280 * 2;
@@ -41,40 +41,31 @@ main (void)
 void
 draw_3d_view (Player *player)
 {
-  // float start = player->angle - DEG2RAD * (PLAYER_FOV / 2.0);
-  // float end = player->angle + DEG2RAD * (PLAYER_FOV / 2.0);
-  // float angle_step = 0.5 * DEG2RAD + (0 * player->speed);
-
-  // num_rays is just the FOV (when angle step is 1 deg)
-  // has an inverse relationship with the angle step
-  // e.g.) .5 deg step => 2 * FOV
-
-  // float num_cols = (WINDOW_WIDTH / 2.0) / (PLAYER_FOV) + 0 * player->speed;
-  // printf("%f\n", num_cols);
-  int scaling_factor = (WINDOW_WIDTH / PLAYER_FOV);
-
-  // want to find a multiplier for player FOV
-  // that results in an even num of cols
-  for (int col = 0; col < WINDOW_WIDTH / 2; col++)
+  //const float RAY_PRECISION = 64.0;
+  const int SCREEN_START = WINDOW_WIDTH / 2.0;
+  float ray_angle = player->angle - (PLAYER_FOV / 2.0) * DEG2RAD;
+  for (int ray_count = 0; ray_count < SCREEN_START; ray_count++)
     {
-      float ray_angle = player->angle - (PLAYER_FOV / 2.0)
-                        + (col / (WINDOW_WIDTH / 2.0)) * PLAYER_FOV;
+      Vector2 ray = { player->pos.x, player->pos.y };
+      //float ray_cos = -cos (ray_angle) / RAY_PRECISION;
+      //float ray_sin = sin (-ray_angle) / RAY_PRECISION;
 
-      Vector2 wall;
-      calculate_ray_length (&player->pos, &wall, ray_angle);
-      float distance_to_wall = v2_distance (&player->pos, &wall);
-    float corrected_dist = distance_to_wall * cos(ray_angle - player->angle);
-      float wall_height = (WINDOW_HEIGHT / corrected_dist) * scaling_factor;
-      //printf ("%f\n", wall_height);
-      float wall_start = (WINDOW_HEIGHT - wall_height) / 2.0;
-      float wall_end = wall_start + wall_height;
+    calculate_ray_length(&player->pos, &ray, ray_angle);
 
-      int curr_col = scaling_factor * col + (WINDOW_WIDTH / 2);
-      // Ceiling
-      DrawRectangle(curr_col, 0, scaling_factor, wall_start, BLACK);
-      // Wall
-      DrawRectangle(curr_col, wall_start, scaling_factor, wall_end - wall_start, BLUE);
-      // Floor
-      DrawRectangle(curr_col, wall_end, scaling_factor, WINDOW_HEIGHT - wall_end, GREEN);
+      float dist = v2_distance (&player->pos, &ray);
+      // fish-eye fix
+      // dist *= cos(ray_angle - player->angle);
+
+      int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist);
+
+      DrawLine (ray_count + SCREEN_START, 0, ray_count + SCREEN_START,
+                WINDOW_HEIGHT / 2.0 - wall_height, BLACK);
+      DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 - wall_height,
+                ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
+                BLUE);
+      DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
+                ray_count + SCREEN_START, WINDOW_HEIGHT, GREEN);
+
+      ray_angle += (float)(PLAYER_FOV / SCREEN_START) * DEG2RAD;
     }
 }
