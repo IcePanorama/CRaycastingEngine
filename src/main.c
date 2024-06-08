@@ -41,31 +41,27 @@ main (void)
 void
 draw_3d_view (Player *player)
 {
-  //const float RAY_PRECISION = 64.0;
   const int SCREEN_START = WINDOW_WIDTH / 2.0;
   float ray_angle = player->angle - (PLAYER_FOV / 2.0) * DEG2RAD;
   for (int ray_count = 0; ray_count < SCREEN_START; ray_count++)
     {
-      Vector2 ray = { player->pos.x, player->pos.y };
-      //float ray_cos = -cos (ray_angle) / RAY_PRECISION;
-      //float ray_sin = sin (-ray_angle) / RAY_PRECISION;
-
+    Vector2 ray;
     calculate_ray_length(&player->pos, &ray, ray_angle);
 
       float dist = v2_distance (&player->pos, &ray);
       // fish-eye fix
-      // dist *= cos(ray_angle - player->angle);
+      dist *= cos(ray_angle - player->angle);
 
-      int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist);
+      int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist) * 10;
 
       DrawLine (ray_count + SCREEN_START, 0, ray_count + SCREEN_START,
-                WINDOW_HEIGHT / 2.0 - wall_height, BLACK);
+                WINDOW_HEIGHT / 1.0 - wall_height, BLACK);
       DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 - wall_height,
                 ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
                 BLUE);
       DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
                 ray_count + SCREEN_START, WINDOW_HEIGHT, GREEN);
 
-      ray_angle += (float)(PLAYER_FOV / SCREEN_START) * DEG2RAD;
+      ray_angle += (float)PLAYER_FOV / SCREEN_START * DEG2RAD; // * DEG2RAD;
     }
 }
