@@ -50,7 +50,8 @@ draw_3d_view (Player *player)
 
       float dist = v2_distance (&player->pos, &ray);
       // fish-eye fix
-      //dist *= cos (ray_angle - player->angle);
+      dist *= cos (ray_angle - player->angle);
+      //dist *= tan(ray_angle - player->angle);
 
       int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist * 50);
 

@@ -4,7 +4,7 @@
 #include <math.h>
 #include <raylib.h>
 
-const int PLAYER_FOV = 60;
+const int PLAYER_FOV = 90;
 
 void
 clamp_player_angle (Player *p)
