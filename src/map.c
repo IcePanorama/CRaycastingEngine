@@ -1,5 +1,6 @@
 #include "map.h"
-#include "raylib.h"
+#include "utils.h"
+#include <math.h>
 
 #define MAP_WIDTH 9
 #define MAP_HEIGHT 9
@@ -21,7 +22,7 @@ char map[MAP_WIDTH][MAP_HEIGHT] = {
 int window_width;
 
 void 
-draw_2d_map(const int WINDOW_WIDTH)//, const int WINDOW_HEIGHT)
+draw_2d_map(const int WINDOW_WIDTH)
 {
   window_width = WINDOW_WIDTH;
   for (int i = 0; i < MAP_WIDTH; i++)
@@ -47,7 +48,6 @@ draw_cell (float i, float j, Color color)
   DrawRectangle(i * SIZE, j * SIZE, SIZE - 2, SIZE - 2, color);
 }
 
-// why am I using floats everywhere? should switch to double lol
 int 
 global_x_to_map_row (float x)
 {
@@ -89,7 +89,30 @@ is_cell_wall(int i, int j)
   return map[i][j] == 1;
 }
 
-/*void 
-draw_3d_view (void)
+void 
+draw_3d_view (Player *player, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
-}*/
+  const float VIEW_PLANE_DIST = 100.0;
+  const int SCREEN_START = WINDOW_WIDTH / 2.0;
+  float ray_angle = player->angle - (PLAYER_FOV / 2.0) * DEG2RAD;
+  for (int ray_count = 0; ray_count < SCREEN_START; ray_count++)
+    {
+      Vector2 ray;
+      calculate_ray_length (&player->pos, &ray, ray_angle);
+
+      float dist = v2_distance (&player->pos, &ray);
+      dist *= cos (ray_angle - player->angle);
+
+      int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist * VIEW_PLANE_DIST);
+
+      DrawLine (ray_count + SCREEN_START, 0, ray_count + SCREEN_START,
+                WINDOW_HEIGHT - wall_height, BLACK);
+      DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 - wall_height,
+                ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
+                BLUE);
+      DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
+                ray_count + SCREEN_START, WINDOW_HEIGHT, GREEN);
+
+      ray_angle += (float)PLAYER_FOV / SCREEN_START * DEG2RAD;
+    }
+}
