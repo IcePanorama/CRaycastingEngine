@@ -1,6 +1,8 @@
 #include "map.h"
 #include "utils.h"
 #include <math.h>
+#include <raylib.h>
+#include <stdio.h>
 
 #define MAP_WIDTH 9
 #define MAP_HEIGHT 9
@@ -105,13 +107,36 @@ draw_3d_view (Player *player, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 
       int wall_height = (int)((WINDOW_WIDTH / 2.0) / dist * VIEW_PLANE_DIST);
 
-      DrawLine (ray_count + SCREEN_START, 0, ray_count + SCREEN_START,
-                WINDOW_HEIGHT - wall_height, BLACK);
+      float shade_factor = 1.0 - (dist / 1500);
+      if (shade_factor < 0.0)
+        {
+          shade_factor = 0.0;
+        }
+      // If we don't draw the floor, we could have some sort of
+      // sky texture that we draw before drawing walls/the floor
+      
+      /*
+      Color ceiling_shade = (Color){(int)(LIGHTGRAY.r * shade_factor),
+                                    (int)(LIGHTGRAY.g * shade_factor),
+                                    (int)(LIGHTGRAY.b * shade_factor),
+                                    LIGHTGRAY.a};
+       */
+      Color floor_shade = (Color){(int)(GREEN.r * shade_factor),
+                                  (int)(GREEN.g * shade_factor),
+                                  (int)(GREEN.b * shade_factor), GREEN.a};
+      Color wall_shade = (Color){(int)(BLUE.r * shade_factor),
+                                 (int)(BLUE.g * shade_factor),
+                                 (int)(BLUE.b * shade_factor), BLUE.a};
+
+      // Ceiling
+      //DrawLine (ray_count + SCREEN_START, 0, ray_count + SCREEN_START, WINDOW_HEIGHT - wall_height, ceiling_shade);
+      // Walls  
       DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 - wall_height,
                 ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
-                BLUE);
+                wall_shade);
+      // Floor
       DrawLine (ray_count + SCREEN_START, WINDOW_HEIGHT / 2.0 + wall_height,
-                ray_count + SCREEN_START, WINDOW_HEIGHT, GREEN);
+                ray_count + SCREEN_START, WINDOW_HEIGHT, floor_shade);
 
       ray_angle += (float)PLAYER_FOV / SCREEN_START * DEG2RAD;
     }
