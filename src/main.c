@@ -2,8 +2,8 @@
 #include "player.h"
 #include "raylib.h"
 
-const int WINDOW_WIDTH = 1280 * 2;
-const int WINDOW_HEIGHT = 1280;
+const int WINDOW_WIDTH = 480 * 2;
+const int WINDOW_HEIGHT = 480;
 
 int
 main (void)

@@ -49,7 +49,11 @@ draw_player (Player *p)
   // highlights the cell the player is in
   draw_cell (global_x_to_map_row (p->pos.x), global_y_to_map_col (p->pos.y),
              GREEN);
-  DrawCircle (p->pos.x, p->pos.y, 25, RED);
+  // The player radius needs to be some
+  // sort of function of the window
+  // size or the view screen
+  // TODO: figure out such a formula
+  DrawCircle (p->pos.x, p->pos.y, 10, RED);
 
   /* Center FOV Line */
   float player_dx = cos (p->angle) * 100;
